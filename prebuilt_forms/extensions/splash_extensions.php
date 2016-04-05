@@ -1614,4 +1614,21 @@ class extension_splash_extensions {
       });
       ";
   }
+  
+  /*
+   * Sensitive plots are no longer going to be used. Hide the existing checkbox and display a warning
+   * if there is an existing sensitive plot (as these will remain, but can no longer be altered.
+   */
+  public static function disable_sensitive_plot_box($auth, $args, $tabAlias, $options) {
+    if (!empty($options['sensitiveAttrId'])) {
+      data_entry_helper::$javascript .= "
+      $(window).load(function() {
+        if (!$('#locAttr\\\\:".$options['sensitiveAttrId']."').is(':checked')) {
+          $('#no-plot-test').remove();
+        }
+        $('#ctrl-wrap-locAttr-".$options['sensitiveAttrId']."').remove()
+      });\n";
+      return '<div id="no-plot-test" style="color:red">This plot has been marked as sensitive</div><br>';
+    }
+  }
 }
