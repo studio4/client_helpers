@@ -1516,7 +1516,11 @@ class extension_splash_extensions {
         {\"website_id\":".$args['website_id'].",\"id\":pav_id, \"deleted\":\"t\"},
         function (data) {
           if (typeof data.error === 'undefined') {
-            location.reload(); 
+            //Avoid including the email paramters when removing locations as we don't want to send the 
+            //location sign-up email
+            var url = window.location.href.split('?location_id_to_email')[0]; 
+            url = window.location.href.split('&location_id_to_email')[0]; 
+            window.location.href = url;
           } else {
             alert(data.error);
           }
